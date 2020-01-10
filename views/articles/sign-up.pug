@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  h2= title
+  
+  include errors
+  
+  form(action="/sign-up", method="post")
+    //- div
+    //-   label(for="title") Title:
+    //-   input(type="text", name="title" value="")
+    div
+        label(for="username") Username:
+        input(type="text", name="username", value=username)
+    div
+        label(for="password") Password:
+        input(type="password", name="password", value=password)
+    input(type="submit")
