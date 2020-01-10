@@ -46,7 +46,6 @@ app.use( (err, req, res, next) => {
 
 models.sequelize.sync().then(function(){
   app.listen(process.env.PORT, function(){
-    console.log('server listening on port 5000');
 });
 });
 
