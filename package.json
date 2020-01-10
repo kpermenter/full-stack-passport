@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "main": "app.js",
+  "heroku-postbuild": "npm install --production",
   "engines": {
     "node": "12.13.1",
     "npm": "6.12.1"
