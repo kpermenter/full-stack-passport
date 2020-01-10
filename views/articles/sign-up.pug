@@ -1,14 +1,11 @@
 extends ../layout
 
 block content
-  h2= title
+  h2 Sign Up
   
   include errors
   
   form(action="/sign-up", method="post")
-    //- div
-    //-   label(for="title") Title:
-    //-   input(type="text", name="title" value="")
     div
         label(for="username") Username:
         input(type="text", name="username", value=username)

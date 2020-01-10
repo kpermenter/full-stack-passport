@@ -1,24 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const app = express();
-const session = require('express-session');
-//const passport = require('passport');
-const models = require('../models');
+// const app = express();
+const session = require("express-session");
+const bodyParser = require("body-parser");
 require('dotenv').config();
+const models = require('../models');
 
-
-// Passport session
-// app.use(session({
-//   secret: "cats",
-//   resave: false,
-//   saveUninitialized: true
-// }));
-
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// var cookieParser = require('cookie-parser');
 var pbkdf2 = require('pbkdf2');
 var salt = process.env.SALT_KEY;
 
@@ -30,114 +18,105 @@ function encryptionPassword(password) {
   return hash;
 }
 
-// const LocalStrategy = require('passport-local').Strategy
+router.use(session({
+  secret: "cats",
+  resave: false,
+  saveUninitialized: true
+}));
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: false }));
 
-//passport local strategy 
-// passport.use(new LocalStrategy(
-//   function (username, password, done) {
-//     models.users.findOne({
-//       where: {
-//         username: username
-//       }
-//     }).then(function (user) {
-//       if (!user) {
-//         return done(null, false)
-//       }
+router.use(express.static(__dirname + '/public'));
 
-//       if (user.password != encryptionPassword(password)) {
+/*  PASSPORT SETUP  */
 
-//         return done(null, false);
-//       }
-//       return done(null, user);
-//     }).catch(function (err) {
-//       return done(err);
-//     });
-//   }
-// ));
+const passport = require('passport');
+router.use(passport.initialize());
+router.use(passport.session());
 
-// passport.serializeUser(function (user, done) {
-//   done(null, user.id);
-// });
-
-// passport.deserializeUser(function (id, done) {
-//   models.users.findOne({ where: { id: id } }).then(function (user) {
-//     done(null, user);
-//   });
-// });
-
-/* GET articles homepage */
-router.get('/', (req, res, next) => {
-  res.redirect("/articles")
+router.get('/success', function (req, res) {
+  if (req.isAuthenticated()) {
+    res.redirect('/articles')
+  } else {
+    res.send("not authorized.");
+  }
 });
 
-/* GET sign-up*/
-router.get('/sign-up', function (req, res) {
-  console.log('hey')
-  res.render('articles/sign-up');
-})
+router.get('/logout', function (req, res) {
+  if (req.isAuthenticated()) {
+    console.log("user logging out");
+    req.logOut();
+    res.send("user has logged out");
+  } else {
+    res.send("You don't have a session open");
+  }
+});
 
-/* GET login*/
+router.get('/error', (req, res) => 
+(res.redirect('/login')));
+
+passport.serializeUser(function (users, cb) {
+  cb(null, users.id);
+});
+
+passport.deserializeUser(function (id, cb) {
+  models.users.findOne({ where: { id: id } }).then(function (users) {
+    cb(null, users);
+  });
+});
+
+/* PASSPORT LOCAL AUTHENTICATION */
+
+const LocalStrategy = require('passport-local').Strategy;
+
+passport.use(new LocalStrategy(
+  function (username, password, done) {
+    models.users.findOne({
+      where: {
+        username: username
+      }
+    }).then(function (users) {
+      if (!users) {
+        return done(null, false);
+      }
+      if (users.password != encryptionPassword(password)) {
+        return done(null, false);
+      }
+      return done(null, users);
+    }).catch(function (err) {
+      return done(err);
+    });
+  }
+));
+
 router.get('/login', function (req, res) {
   res.render('articles/login');
 })
 
-// POST login
-router.post('/login', function (req, res) {
-    res.send('called')
-})
+router.post('/login',
+  passport.authenticate('local', { failureRedirect: '/error' }),
+  function (req, res) {
+    // res.render('articles/login');
+    res.redirect('/success');
+  });
 
-// POST sign-up
-router.post("/sign-up", function (req, res) {
-  console.log('helllloooo');
-  console.log(req.body.username);
-  console.log(req.body.password);
-  models.users.findOne({
-    where: {
-      username: req.body.username
-    }
-  }).then(function (user) {
-    console.log(user)
-    if (!user) {
-      models.users.create({
-        username: req.body.username,
-        password: encryptionPassword(req.body.password),
-
-      }).error(function (err) {
-        console.log(err);
-
-      });
-      res.send('cool')
-    } 
-
-    // else {
-    //   res.render('articles/sign-up', { error: 'The user is already created ' })
-    // }
-    // res.redirect("login")
+router.post("/sign-up", function (req, response) {
+  models.users.create({
+    username: req.body.username,
+    password: encryptionPassword(req.body.password)
   })
-
+    .then(function (users) {
+      response.redirect('/articles');
+    });
 });
 
-// Using LocalStrategy with passport
-// router.post('/login',
-//   passport.authenticate('local', { failureRedirect: '/error' }),
-//   function (req, res) {
-//     res.redirect('/success?username=' + req.user.username)
-//     res.redirect('/articles')
-//   })
-
-router.get('/success', function (req, res) {
-  console.log(req.user)
-  if (req.isAuthenticated()) {
-    res.redirect("/articles");
-
-  } else {
-    res.redirect('/sign-up')
-  }
-});
-
-router.get('/error', function (req, res) {
-  res.redirect("/login");
+router.get('/sign-up', function (req, res) {
+  res.render('articles/sign-up');
 })
+
+router.get('/', function (req, res) {
+  res.render("articles/login")
+});
 
 
 module.exports = router;
