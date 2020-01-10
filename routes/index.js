@@ -78,7 +78,12 @@ router.get('/sign-up', function (req, res) {
 
 /* GET login*/
 router.get('/login', function (req, res) {
-  res.render('login');
+  res.render('articles/login');
+})
+
+// POST login
+router.post('/login', function (req, res) {
+    res.send('called')
 })
 
 // POST sign-up
