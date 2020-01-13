@@ -48,5 +48,4 @@ models.sequelize.sync().then(function(){
   app.listen(process.env.PORT || 80, function () {
   });
 });
-
 module.exports = app;
