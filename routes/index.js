@@ -34,27 +34,6 @@ const passport = require('passport');
 router.use(passport.initialize());
 router.use(passport.session());
 
-router.get('/success', function (req, res) {
-  if (req.isAuthenticated()) {
-    res.redirect('/articles')
-  } else {
-    res.send("not authorized.");
-  }
-});
-
-router.get('/logout', function (req, res) {
-  if (req.isAuthenticated()) {
-    console.log("user logging out");
-    req.logOut();
-    res.send("user has logged out");
-  } else {
-    res.send("You don't have a session open");
-  }
-});
-
-router.get('/error', (req, res) => 
-(res.redirect('/login')));
-
 passport.serializeUser(function (users, cb) {
   cb(null, users.id);
 });
@@ -89,6 +68,7 @@ passport.use(new LocalStrategy(
   }
 ));
 
+//////ROUTES///
 router.get('/login', function (req, res) {
   res.render('articles/login');
 })
@@ -100,6 +80,10 @@ router.post('/login',
     res.redirect('/success');
   });
 
+router.get('/sign-up', function (req, res) {
+  res.render('articles/sign-up');
+})
+
 router.post("/sign-up", function (req, response) {
   models.users.create({
     username: req.body.username,
@@ -110,13 +94,26 @@ router.post("/sign-up", function (req, response) {
     });
 });
 
-router.get('/sign-up', function (req, res) {
-  res.render('articles/sign-up');
-})
-
-router.get('/', function (req, res) {
-  res.render("articles/login")
+router.get('/logout', function (req, res) {
+  if (req.isAuthenticated()) {
+    console.log("user logging out");
+    req.logOut();
+    res.send("user has logged out");
+  } else {
+    res.send("You don't have a session open");
+  }
 });
+
+router.get('/success', function (req, res) {
+  if (req.isAuthenticated()) {
+    res.redirect('/articles')
+  } else {
+    res.send("not authorized.");
+  }
+});
+
+router.get('/error', (req, res) =>
+  (res.redirect('/login')));
 
 
 module.exports = router;
