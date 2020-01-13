@@ -8,8 +8,8 @@ block content
   form(action="/login", method="post")
     div
         label(for="username") Username:
-        input(type="text", name="username", value=username)
+        input(type="text", name="username")
     div
         label(for="password") Password:
-        input(type="password", name="password", value=password)
-    input(type="submit")
+        input(type="password", name="password")
+    input(type="submit", value="login")

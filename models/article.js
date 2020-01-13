@@ -26,5 +26,14 @@ module.exports = (sequelize) => {
     body: Sequelize.TEXT
   }, { sequelize });
 
+  // associations can be defined here
+  
+  // Article.associate = function(models) {
+  //   Article.belongsToMany(models.users, {
+  //     foreignKey: 'article_id',
+  //     as: 'author'
+  //   });
+  // };
+
   return Article;
 };

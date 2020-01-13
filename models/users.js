@@ -6,8 +6,17 @@ module.exports = (sequelize, DataTypes) => {
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
   }, {});
-  users.associate = function(models) {
-    // associations can be defined here
-  };
+  // associations can be defined here
+  
+  //  users.associate = function(models) {
+  //   users.hasOne(models.username, {
+  //     foreignKey: 'user_id',
+  //     as: 'username',
+  //   });
+  //   users.belongsToMany(models.Article, {
+  //     as: 'article',
+  //     foreignKey: 'user_id'
+  //   });
+  // };
   return users;
 };
