@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const flash = require('connect-flash');
 
 // const app = express();
 const session = require("express-session");
@@ -31,6 +32,7 @@ router.use(express.static(__dirname + '/public'));
 /*  PASSPORT SETUP  */
 
 const passport = require('passport');
+router.use(flash());
 router.use(passport.initialize());
 router.use(passport.session());
 
@@ -48,8 +50,9 @@ passport.deserializeUser(function (id, cb) {
 
 const LocalStrategy = require('passport-local').Strategy;
 
-passport.use(new LocalStrategy(
-  function (username, password, done) {
+passport.use(new LocalStrategy({
+  // passReqToCallback : true
+}, function (username, password, done) {
     models.users.findOne({
       where: {
         username: username
@@ -69,6 +72,11 @@ passport.use(new LocalStrategy(
 ));
 
 //////ROUTES///
+router.post('/login', passport.authenticate('local', {
+  successRedirect: '/articles',
+  failureRedirect: '/error', // see text
+  failureFlash: true // optional, see text as well
+}));
 
 router.get('/', (req, res) =>
   (res.redirect('/login')));
@@ -77,12 +85,12 @@ router.get('/login', function (req, res) {
   res.render('articles/login');
 })
 
-router.post('/login',
-  passport.authenticate('local', { failureRedirect: '/error' }),
-  function (req, res) {
-    // res.render('articles/login');
-    res.redirect('/success');
-  });
+// router.post('/login',
+//   passport.authenticate('local', { failureRedirect: '/error' }),
+//   function (req, res) {
+//     // res.render('articles/login');
+//     res.redirect('/success');
+//   });
 
 router.get('/sign-up', function (req, res) {
   res.render('articles/sign-up');
@@ -117,7 +125,8 @@ router.get('/success', function (req, res) {
 });
 
 router.get('/error', (req, res) =>
-  (res.redirect('/login')));
+  // (res.send({ failureFlash : true, message : 'authentication succeeded' }));
+  (res.redirect('/login')))
 
 
 module.exports = router;
