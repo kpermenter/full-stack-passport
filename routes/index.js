@@ -46,6 +46,9 @@ passport.deserializeUser(function (id, cb) {
   });
 });
 
+/* PASSPORT GITHUB AUTHENTICATION */
+
+
 /* PASSPORT LOCAL AUTHENTICATION */
 
 const LocalStrategy = require('passport-local').Strategy;
