@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const flash = require('connect-flash');
 
-// const app = express();
+const app = express();
 const session = require("express-session");
 const bodyParser = require("body-parser");
 require('dotenv').config();
@@ -32,7 +31,6 @@ router.use(express.static(__dirname + '/public'));
 /*  PASSPORT SETUP  */
 
 const passport = require('passport');
-router.use(flash());
 router.use(passport.initialize());
 router.use(passport.session());
 
@@ -46,7 +44,7 @@ passport.deserializeUser(function (id, cb) {
   });
 });
 
-/* PASSPORT GITHUB AUTHENTICATION */
+/* PASSPORT OAUTH AUTHENTICATION */
 
 
 /* PASSPORT LOCAL AUTHENTICATION */
@@ -54,7 +52,6 @@ passport.deserializeUser(function (id, cb) {
 const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy({
-  // passReqToCallback : true
 }, function (username, password, done) {
     models.users.findOne({
       where: {
@@ -77,8 +74,7 @@ passport.use(new LocalStrategy({
 //////ROUTES///
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/articles',
-  failureRedirect: '/error', // see text
-  failureFlash: true // optional, see text as well
+  failureRedirect: '/error'
 }));
 
 router.get('/', (req, res) =>
@@ -88,24 +84,17 @@ router.get('/login', function (req, res) {
   res.render('articles/login');
 })
 
-// router.post('/login',
-//   passport.authenticate('local', { failureRedirect: '/error' }),
-//   function (req, res) {
-//     // res.render('articles/login');
-//     res.redirect('/success');
-//   });
-
 router.get('/sign-up', function (req, res) {
   res.render('articles/sign-up');
 })
 
-router.post("/sign-up", function (req, response) {
+router.post("/sign-up", function (req, res) {
   models.users.create({
     username: req.body.username,
     password: encryptionPassword(req.body.password)
   })
     .then(function (users) {
-      response.redirect('/articles');
+      res.redirect('/articles');
     });
 });
 
@@ -127,9 +116,17 @@ router.get('/success', function (req, res) {
   }
 });
 
-router.get('/error', (req, res) =>
-  // (res.send({ failureFlash : true, message : 'authentication succeeded' }));
-  (res.redirect('/login')))
+router.get('/error', function (req,res) {
+  res.render('passport-error')
+})
+  
+// router.get('/error', function (err, req, res, next) {
+//   if (res.headersSent) {
+//     return next(err)
+//   }
+//   res.status(500)
+//   res.render('error', { error: err })
+// })
 
 
 module.exports = router;
