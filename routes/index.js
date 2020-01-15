@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-const app = express();
 const session = require("express-session");
 const bodyParser = require("body-parser");
 require('dotenv').config();
@@ -119,14 +118,6 @@ router.get('/success', function (req, res) {
 router.get('/error', function (req,res) {
   res.render('passport-error')
 })
-  
-// router.get('/error', function (err, req, res, next) {
-//   if (res.headersSent) {
-//     return next(err)
-//   }
-//   res.status(500)
-//   res.render('error', { error: err })
-// })
 
 
 module.exports = router;
