@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+cookieParser = require('cookie-parser'),
+cookieSession = require('cookie-session');
+
 const session = require("express-session");
 const bodyParser = require("body-parser");
 require('dotenv').config();
@@ -42,8 +45,6 @@ passport.deserializeUser(function (id, cb) {
     cb(null, users);
   });
 });
-
-/* PASSPORT OAUTH AUTHENTICATION */
 
 
 /* PASSPORT LOCAL AUTHENTICATION */
@@ -118,6 +119,44 @@ router.get('/success', function (req, res) {
 router.get('/error', function (req,res) {
   res.render('passport-error')
 })
+
+
+/* PASSPORT OAUTH AUTHENTICATION */
+
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+passport.use(new GoogleStrategy({
+  clientID: "976212040028-hcigl64nfd0vd5u1o1o2qp2arq9qlpde.apps.googleusercontent.com",
+  clientSecret: "ItHOI71SKWqzgEjSvLGusns8",
+  callbackURL: "http://localhost:8080/auth/google/callback",
+  passReqToCallback: true
+},
+  function (request, accessToken, refreshToken, profile, done) {
+    models.users.findOrCreate({ googleId: profile.id }, function (err, user) {
+      return done(err, user);
+    });
+  }
+));
+
+// GET /auth/google
+router.get('/auth/google',
+  passport.authenticate('google', {
+    scope:
+    ['profile']
+      // ['https://www.googleapis.com/auth/plus.login',
+      //   , 'https://www.googleapis.com/auth/plus.profile.emails.read']
+  }
+  ));
+
+// GET /auth/google callback
+router.get('/auth/google/callback',
+  passport.authenticate('google', {
+    successRedirect: '/articles',
+    failureRedirect: '/login'
+  }));
+
+// END OAUTH
+//////////////////////////////////////////////////////////////
 
 
 module.exports = router;
