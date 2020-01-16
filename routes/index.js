@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 
@@ -8,6 +9,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 require('dotenv').config();
 const models = require('../models');
+var user = require('../models/users.js');
 
 var pbkdf2 = require('pbkdf2');
 var salt = process.env.SALT_KEY;
@@ -129,22 +131,34 @@ passport.use(new GoogleStrategy({
   clientID: "976212040028-hcigl64nfd0vd5u1o1o2qp2arq9qlpde.apps.googleusercontent.com",
   clientSecret: "ItHOI71SKWqzgEjSvLGusns8",
   callbackURL: "http://localhost:8080/auth/google/callback",
-  passReqToCallback: true
 },
-  function (request, accessToken, refreshToken, profile, done) {
-    models.users.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return done(err, user);
-    });
-  }
-));
+function(accessToken, refreshToken, profile, done) {
+  //check user table for anyone with a facebook ID of profile.id
+  models.users.findOne({
+    where: {
+      'g_id': profile.id
+    }
+  }).then((currentUser) => {
+    if (currentUser) {
+      // console.log("welcome back " + profile.displayName);
+      done(null, currentUser);
+    } else {
+      models.users.create({
+        g_name: profile.displayName,
+        g_id: profile.id
+      }).then((newUser) => {
+        console.log("New User created: " + newUser);
+        done(null, newUser);
+      });
+    }
+  });
+}));
 
 // GET /auth/google
 router.get('/auth/google',
   passport.authenticate('google', {
     scope:
-    ['profile']
-      // ['https://www.googleapis.com/auth/plus.login',
-      //   , 'https://www.googleapis.com/auth/plus.profile.emails.read']
+    ['https://www.googleapis.com/auth/userinfo.profile',]
   }
   ));
 
@@ -154,6 +168,50 @@ router.get('/auth/google/callback',
     successRedirect: '/articles',
     failureRedirect: '/login'
   }));
+
+
+//   models.users.findOne({
+//     where: {
+//       'g_id': profile.id
+//     }
+//   }, function(err, user) {
+//       if (err) {
+//           return done(err);
+//       }
+//       //No user was found... so create a new user with values from Facebook (all the profile. stuff)
+//       if (!user) {
+//           user = new User({
+//             g_name: profile.displayName,
+//             g_id: profile.id,
+//           });
+//           user.save(function(err) {
+//               if (err) console.log(err);
+//               return done(err, user);
+//           });
+//       } else {
+//           //found user. Return
+//           return done(err, user);
+//       }
+//   });
+// }
+// ));
+
+// // GET /auth/google
+// router.get('/auth/google',
+//   passport.authenticate('google', {
+//     scope:
+//     ['profile']
+//       // ['https://www.googleapis.com/auth/plus.login',
+//       //   , 'https://www.googleapis.com/auth/plus.profile.emails.read']
+//   }
+//   ));
+
+// // GET /auth/google callback
+// router.get('/auth/google/callback',
+//   passport.authenticate('google', {
+//     successRedirect: '/articles',
+//     failureRedirect: '/login'
+//   }));
 
 // END OAUTH
 //////////////////////////////////////////////////////////////
