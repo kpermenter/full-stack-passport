@@ -2,9 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 
-cookieParser = require('cookie-parser'),
-cookieSession = require('cookie-session');
-
 const session = require("express-session");
 const bodyParser = require("body-parser");
 require('dotenv').config();
@@ -22,8 +19,9 @@ function encryptionPassword(password) {
   return hash;
 }
 
+// SESSION SETUP
 router.use(session({
-  secret: "cats",
+  secret: process.env.secret,
   resave: false,
   saveUninitialized: true
 }));
@@ -32,8 +30,8 @@ router.use(bodyParser.urlencoded({ extended: false }));
 
 router.use(express.static(__dirname + '/public'));
 
-/*  PASSPORT SETUP  */
 
+/*  PASSPORT SETUP  */
 const passport = require('passport');
 router.use(passport.initialize());
 router.use(passport.session());
@@ -50,7 +48,6 @@ passport.deserializeUser(function (id, cb) {
 
 
 /* PASSPORT LOCAL AUTHENTICATION */
-
 const LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy({
@@ -73,23 +70,27 @@ passport.use(new LocalStrategy({
   }
 ));
 
-//////ROUTES///
+//post login
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/articles',
   failureRedirect: '/error'
 }));
 
+//render homepage -> redirect login
 router.get('/', (req, res) =>
   (res.redirect('/login')));
 
+//render login
 router.get('/login', function (req, res) {
   res.render('articles/login');
 })
 
+//render sign up
 router.get('/sign-up', function (req, res) {
   res.render('articles/sign-up');
 })
 
+//sign up credentials
 router.post("/sign-up", function (req, res) {
   models.users.create({
     username: req.body.username,
@@ -100,16 +101,17 @@ router.post("/sign-up", function (req, res) {
     });
 });
 
+//logout method
 router.get('/logout', function (req, res) {
   if (req.isAuthenticated()) {
-    console.log("user logging out");
     req.logOut();
-    res.send("user has logged out");
+    res.render('logout')
   } else {
     res.send("You don't have a session open");
   }
 });
 
+//error handlers
 router.get('/success', function (req, res) {
   if (req.isAuthenticated()) {
     res.redirect('/articles')
@@ -123,17 +125,15 @@ router.get('/error', function (req,res) {
 })
 
 
-/* PASSPORT OAUTH AUTHENTICATION */
-
+/* PASSPORT GOOGLE OAUTH*/
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 passport.use(new GoogleStrategy({
-  clientID: "976212040028-hcigl64nfd0vd5u1o1o2qp2arq9qlpde.apps.googleusercontent.com",
-  clientSecret: "ItHOI71SKWqzgEjSvLGusns8",
+  clientID: process.env.clientID,
+  clientSecret: process.env.clientSecret,
   callbackURL: "http://localhost:8080/auth/google/callback",
 },
 function(accessToken, refreshToken, profile, done) {
-  //check user table for anyone with a facebook ID of profile.id
   models.users.findOne({
     where: {
       'g_id': profile.id
@@ -168,53 +168,6 @@ router.get('/auth/google/callback',
     successRedirect: '/articles',
     failureRedirect: '/login'
   }));
-
-
-//   models.users.findOne({
-//     where: {
-//       'g_id': profile.id
-//     }
-//   }, function(err, user) {
-//       if (err) {
-//           return done(err);
-//       }
-//       //No user was found... so create a new user with values from Facebook (all the profile. stuff)
-//       if (!user) {
-//           user = new User({
-//             g_name: profile.displayName,
-//             g_id: profile.id,
-//           });
-//           user.save(function(err) {
-//               if (err) console.log(err);
-//               return done(err, user);
-//           });
-//       } else {
-//           //found user. Return
-//           return done(err, user);
-//       }
-//   });
-// }
-// ));
-
-// // GET /auth/google
-// router.get('/auth/google',
-//   passport.authenticate('google', {
-//     scope:
-//     ['profile']
-//       // ['https://www.googleapis.com/auth/plus.login',
-//       //   , 'https://www.googleapis.com/auth/plus.profile.emails.read']
-//   }
-//   ));
-
-// // GET /auth/google callback
-// router.get('/auth/google/callback',
-//   passport.authenticate('google', {
-//     successRedirect: '/articles',
-//     failureRedirect: '/login'
-//   }));
-
-// END OAUTH
-//////////////////////////////////////////////////////////////
 
 
 module.exports = router;
