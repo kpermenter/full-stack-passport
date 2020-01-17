@@ -1,13 +1,13 @@
+require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const models = require('./models')
-require('dotenv').config();
 
-const articles = require('./routes/articles');
-const users = require('./routes/index');
+// const articles = require('./routes');
+const users = require('./routes');
 
 const app = express();
 const router = express.Router();
@@ -20,11 +20,10 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(auth);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use(articles);
-app.use('/articles', articles);
+// app.use('/', articles);
 app.use('/', users);
 app.use('/', router);
 
@@ -45,9 +44,16 @@ app.use( (err, req, res, next) => {
 });
 
 models.sequelize.sync().then(function(){
-  app.listen(process.env.PORT || 8080, function () {
-  });
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+    console.log(`Our app is running on port ${ PORT }`);
 });
+});
+
+// models.sequelize.sync().then(function(){
+//   app.listen(process.env.PORT || 8080, function () {
+//   });
+// });
 
 
 module.exports = app;
