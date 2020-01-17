@@ -5,5 +5,13 @@
     "database": "test",
     "host": "localhost",
     "dialect": "postgres"
+  },
+
+  "production": {
+    "username": "postgres",
+    "password": null,
+    "database": "",
+    "host": "localhost",
+    "dialect": "postgres"
   }
 }

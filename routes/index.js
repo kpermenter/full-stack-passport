@@ -139,7 +139,6 @@ function(accessToken, refreshToken, profile, done) {
     }
   }).then((currentUser) => {
     if (currentUser) {
-      // console.log("welcome back " + profile.displayName);
       done(null, currentUser);
     } else {
       models.users.create({
