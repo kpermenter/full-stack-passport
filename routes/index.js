@@ -179,6 +179,20 @@ function asyncHandler(cb) {
   }
 }
 
+/////////////////// RESTRICT USER ACCESS ////////////
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login')
+}
+
+router.all('*', function(req, res, next){
+  if (req.path === '/' || req.path === '/login')
+  next();
+  else
+  ensureAuthenticated(req, res, next);  
+});
+///////////////////////////////////////////////
+
 /* GET articles listing. */
 router.get('/articles', asyncHandler(async (req, res) => {
   const articles = await Article.findAll({ order: [["createdAt", "DESC"]] });
