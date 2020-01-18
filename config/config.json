@@ -1,19 +1,25 @@
-{
-  "development": {
-    "username": "postgres",
-    "password": null,
-    "database": "test",
-    "host": "localhost",
-    "dialect": "postgres"
-  },
-
-  "production": {
-    "client": "pg",
-    "connection": "process.env.DATABASE_URL",
-    "username": "process.env.USER",
-    "password": "prcoess.env.PASSWORD",
-    "database": "prcoess.env.DATABASE",
-    "host": "prcoess.env.HOST",
-    "dialect": "postgres"
+{ 
+    "development": {
+      "username": "ptogzubbmcqfjj",
+      "password": "3348d1ecb908754b4752ce8cc4c846c6fe082bccd14b68c29fcace360535101a",
+      "database": "d5jj42e2rb3niq",
+      "host": "ec2-174-129-33-27.compute-1.amazonaws.com",
+      "dialect": "postgres",
+      "dialectOptions": {
+        "ssl": "true"  
+      }
+    },
+    "production": {
+      "username": "ptogzubbmcqfjj",
+      "password": "3348d1ecb908754b4752ce8cc4c846c6fe082bccd14b68c29fcace360535101a",
+      "database": "d5jj42e2rb3niq",
+      "host": "ec2-174-129-33-27.compute-1.amazonaws.com",
+      "dialect": "postgres",
+      "dialectOptions": {
+        "ssl": "true"  
+      }
     }
   }
+  
+
+  
