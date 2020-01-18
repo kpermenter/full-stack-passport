@@ -130,7 +130,7 @@ var GoogleStrategy = require('passport-google-oauth20').Strategy;
 passport.use(new GoogleStrategy({
   clientID: process.env.clientID,
   clientSecret: process.env.clientSecret,
-  callbackURL: "https://fierce-peak-37409.herokuapp.com/auth/google/callback",
+  callbackURL: "https://kool-journal.herokuapp.com/auth/google/callback",
 },
 function(accessToken, refreshToken, profile, done) {
   models.users.findOne({
