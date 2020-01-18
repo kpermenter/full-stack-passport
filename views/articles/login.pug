@@ -1,16 +1,32 @@
 extends ../layout
 
 block content
-  h2 Log In
   
   include errors
-  
-  form(action="/login", method="post")
-    div
-        label(for="username") Username:
-        input(type="text", name="username")
-    div
-        label(for="password") Password:
-        input(type="password", name="password")
-    input(type="submit", value="login")
-    a(href='/auth/google',  class="btn-new") Sign In with Google
+
+    .container
+      .row
+        .col-sm-9.col-md-7.col-lg-5.mx-auto
+          .card.card-signin.my-5
+            .card-body
+              h5.card-title.text-center Log In
+              form.form-signin(action="/login", method="post")
+                .form-label-group
+                  label(for='username')
+                  input#inputUsername.form-control(type='text' placeholder='Username' name="username" autofocus='')
+                .form-label-group
+                  label(for='inputPassword')
+                  input#inputPassword.form-control(type='password' placeholder='Password' name="password")
+                input(type='submit', value="login", class="btn btn-lg btn-primary btn-block text-uppercase")
+                hr.my-4
+                a(href='/auth/google', class="btn btn-google btn-block text-uppercase") Sign In with Google
+
+//-         div
+//-           label(for="username") Username:
+//-           input(type="text", name="username")
+//-         div
+//-           label(for="password") Password:
+//-           input(type="password", name="password")
+//-         input(type="submit", value="login")
+//-         div
+//-           

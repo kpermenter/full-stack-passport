@@ -2,10 +2,37 @@ doctype html
 html
   head
     title KoolJournal
-    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Bree+Serif|Open+Sans:400,700')
-    link(rel='stylesheet', href='/stylesheets/style.css')
+  link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous')
+
+  link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Bree+Serif|Open+Sans:400,700')
+  link(rel='stylesheet', href='/stylesheets/kooljournal.css')
+  
   body
-    header
-     h1= "KoolJournal"
+    nav.navbar.navbar-expand-lg.navbar-light.bg-light
+      a.navbar-brand(href='#') KoolJournal
+      button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+        span.navbar-toggler-icon
+        
+      .collapse.navbar-collapse(id='navbarSupportedContent')
+        ul.navbar-nav.mr-auto
+          li.nav-item.active
+            a.nav-link(href='#') Home
+          li.nav-item
+            a.nav-link(href='/food-courts') Food Courts
+          li.nav-item
+            a.nav-link(href='/parking') Parking
+          li.nav-item
+            a.nav-link(href='/places') Places
+        ul.navbar-nav.float-right
+          li.nav-item
+            a.nav-link(href='/login') Login
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='navbarDropdownMenuLink', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Accounts
+            .dropdown-menu(aria-labelledby='navbarDropdownMenuLink')
+              a.dropdown-item(href='#') Settings
     div.container
       block content
+  
+  script(src='https://code.jquery.com/jquery-3.4.1.min.js' integrity='sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=' crossorigin='anonymous')
+
+  script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.min.js' integrity='sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=' crossorigin='anonymous')
