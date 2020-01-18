@@ -1,6 +1,12 @@
 extends layout
 
 block content
-    h1 Successfully logged out
-        br 
-    a(href="/login", class="btn-new", style="background-color:red") Log In &#43;
+
+    .container
+      .row
+        .col-sm-9.col-md-7.col-lg-5.mx-auto
+          .card.card-signin.my-5
+            .card-body
+              h5.card-title.text-center Successfully logged out
+              form.form-signin
+                a(href='/login', class="btn btn-lrg btn-block text-uppercase") Log In 
