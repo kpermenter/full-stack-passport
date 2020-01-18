@@ -8,10 +8,12 @@
   },
 
   "production": {
-    "username": "postgres",
-    "password": null,
-    "database": "",
-    "host": "localhost",
+    "client": "pg",
+    "connection": "process.env.DATABASE_URL",
+    "username": "process.env.USER",
+    "password": "prcoess.env.PASSWORD",
+    "database": "prcoess.env.DATABASE",
+    "host": "prcoess.env.HOST",
     "dialect": "postgres"
+    }
   }
-}
