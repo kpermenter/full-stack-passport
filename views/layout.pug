@@ -12,24 +12,13 @@ html
       a.navbar-brand(href='#') KoolJournal
       button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
-        
+
       .collapse.navbar-collapse(id='navbarSupportedContent')
-        ul.navbar-nav.mr-auto
-          li.nav-item.active
-            a.nav-link(href='#') Home
-          li.nav-item
-            a.nav-link(href='/food-courts') Food Courts
-          li.nav-item
-            a.nav-link(href='/parking') Parking
-          li.nav-item
-            a.nav-link(href='/places') Places
-        ul.navbar-nav.float-right
+        ul.navbar-nav
           li.nav-item
             a.nav-link(href='/login') Login
-          li.nav-item.dropdown
-            a.nav-link.dropdown-toggle(id='navbarDropdownMenuLink', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') Accounts
-            .dropdown-menu(aria-labelledby='navbarDropdownMenuLink')
-              a.dropdown-item(href='#') Settings
+          li.nav-item
+            a.nav-link(href='/logout') Logout
     div.container
       block content
   
