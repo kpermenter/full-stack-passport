@@ -29,7 +29,6 @@ router.use(bodyParser.urlencoded({ extended: false }));
 
 router.use(express.static(__dirname + '/public'));
 
-
 /*  PASSPORT SETUP  */
 const passport = require('passport');
 router.use(passport.initialize());
@@ -44,7 +43,6 @@ passport.deserializeUser(function (id, cb) {
     cb(null, users);
   });
 });
-
 
 /* PASSPORT LOCAL AUTHENTICATION */
 const LocalStrategy = require('passport-local').Strategy;
@@ -89,15 +87,14 @@ router.get('/sign-up', function (req, res) {
   res.render('articles/sign-up');
 })
 
-//sign up credentials
-router.post("/sign-up", function (req, res) {
-  models.users.create({
-    username: req.body.username,
-    password: encryptionPassword(req.body.password)
-  })
-    .then(function (users) {
-      res.redirect('/articles');
-    });
+router.post('/sign-up', function(req, res) {
+models.users.create({
+  username: req.body.username,
+  password: encryptionPassword(req.body.password)
+})
+  .then(function (users) {
+    res.redirect('/articles');
+  });
 });
 
 //logout method
@@ -106,23 +103,18 @@ router.get('/logout', function (req, res) {
     req.logOut();
     res.render('logout')
   } else {
-    res.send("You don't have a session open");
+    res.render('passport-error-logout')
   }
 });
 
 //error handlers
-router.get('/success', function (req, res) {
-  if (req.isAuthenticated()) {
-    res.redirect('/articles')
-  } else {
-    res.send("not authorized.");
-  }
-});
-
-router.get('/error', function (req,res) {
+router.get('/error', function (req, res) {
   res.render('passport-error')
 })
 
+router.get('/sign-up/error', function (req, res) {
+  res.render('passport-error-signup')
+})
 
 /* PASSPORT GOOGLE OAUTH*/
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -178,19 +170,18 @@ function asyncHandler(cb) {
   }
 }
 
-/////////////////// RESTRICT USER ACCESS ////////////
+// Restrict user access
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/login')
 }
 
 router.all('*', function(req, res, next){
-  if (req.path === '/' || req.path === '/login')
+  if (req.path === '/sign-up' || req.path === '/login')
   next();
   else
   ensureAuthenticated(req, res, next);  
 });
-///////////////////////////////////////////////
 
 /* GET articles listing. */
 router.get('/articles', asyncHandler(async (req, res) => {
