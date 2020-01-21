@@ -7,11 +7,11 @@ block content
         .col-sm-9.col-md-7.col-lg-5.mx-auto
           .card.card-signin.my-5
             .card-body
-              h5.card-title.text-center=title
+              h3.text-center=title
               p.text-center 
                 | Are you sure you want to delete 
                 em= article.title
-                | ?
+                |  ?
               form.form-signin(action="/articles/" + article.id + "/delete", method="post")
                 a(href="/articles/" + article.id , class="btn btn-lrg btn-block text-uppercase") No! Take me back! 
                 input(type="submit", value = "Yes, I'm sure", class="btn btn-lrg btn-block text-uppercase")

@@ -1,11 +1,17 @@
 extends ../layout
 
 block content
-  h2= article.title
-  include by_line
-  p= article.body
-  a(href="../") &larr; Back 
-  | | 
-  a(href="/articles/" + article.id + "/edit") Edit Article 
-  | | 
-  a(href="/articles/" + article.id + "/delete") Delete Article
+   .container
+      .row
+        .col-sm-9.col-md-7.col-lg-5.mx-auto
+          .card.card-signin.my-5
+            .card-body.text-center
+              h2= article.title
+              include by_line
+              p= article.body
+              btn-group
+                a(href="../" class="btn text-uppercase") &larr; Back 
+                | | 
+                a(href="/articles/" + article.id + "/edit" class="btn text-uppercase") Edit Article 
+                | | 
+                a(href="/articles/" + article.id + "/delete" class="btn text-uppercase") Delete Article

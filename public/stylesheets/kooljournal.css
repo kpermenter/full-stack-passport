@@ -12,6 +12,12 @@
     background-color: #272E6E;
   }
 
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
   .card-article {
     border: 0;
     border-radius: 1rem;
@@ -35,13 +41,24 @@
   }
   
   .card-signin .card-body {
-    padding: 2rem;
+    padding: 1rem;
   }
   
   .form-signin {
     width: 100%;
   }
   
+  .btn {
+    font-size: 80%;
+    border-radius: 5rem;
+    letter-spacing: .1rem;
+    font-weight: bold;
+    padding: 1rem;
+    transition: all 0.2s;
+    color: white;
+    background-color: #272E6E;
+    box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
+  }
   .form-signin .btn {
     font-size: 80%;
     border-radius: 5rem;
@@ -102,27 +119,31 @@
     box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.3);
   }
   
-  /* Fallback for Edge
-  -------------------------------------------------- */
-  
-  @supports (-ms-ime-align: auto) {
-    .form-label-group>label {
-      display: none;
-    }
-    .form-label-group input::-ms-input-placeholder {
-      color: #777;
-    }
+  .btn-group{
+    display: flex;
+    flex-wrap: nowrap;
   }
-  
-  /* Fallback for IE
-  -------------------------------------------------- */
-  
-  @media all and (-ms-high-contrast: none),
-  (-ms-high-contrast: active) {
-    .form-label-group>label {
-      display: none;
-    }
-    .form-label-group input:-ms-input-placeholder {
-      color: #777;
-    }
+
+  .textarea {
+    display: flex;
+    flex-wrap: wrap;
+    flex:1;
+    font-size: 1rem;
+    padding: 1rem;
+  }
+
+  .entries{
+    display: flex;
+    margin: 20px;
+    align-content: space-around;
+    justify-content:center;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+
+  .entry {
+    width: 15rem;
+    height: 20rem;
+    border-radius: 10px;
+    margin: 20px;
   }

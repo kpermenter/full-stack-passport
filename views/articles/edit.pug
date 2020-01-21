@@ -1,9 +1,15 @@
 extends ../layout
 
 block content
-  h2= title
+ 
+ .container
+      .row
+        .col-sm-9.col-md-7.col-lg-5.mx-auto
+          .card.card-signin.my-5
+            .card-body.text-center
+              h2= title
   
-  include errors
-  
-  form(action="/articles/" + article.id + "/edit", method="post")
-    include form
+                include errors
+                
+                form(action="/articles/" + article.id + "/edit", method="post")
+                  include form
