@@ -94,6 +94,7 @@ models.users.create({
 })
   .then(function (users) {
     res.redirect('/articles');
+    // console.log(req.body.username)
   });
 });
 
@@ -137,7 +138,6 @@ function(accessToken, refreshToken, profile, done) {
         g_name: profile.displayName,
         g_id: profile.id
       }).then((newUser) => {
-        console.log("New User created: " + newUser);
         done(null, newUser);
       });
     }
@@ -188,6 +188,14 @@ router.get('/articles', asyncHandler(async (req, res) => {
   const articles = await Article.findAll({ order: [["createdAt", "DESC"]] });
   res.render("articles/index", { articles, title: "" });
 }));
+
+////////////////VALUE
+router.get('/test', (req, res) => {
+  var username= models.users.req.body.username;
+  if(req.isAuthenticated) {
+  res.render("test", { username: username });
+  }
+});
 
 /* Create a new article form. */
 router.get('/articles/new', (req, res) => {
