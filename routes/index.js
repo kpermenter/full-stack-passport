@@ -189,7 +189,7 @@ router.all('*', function(req, res, next){
 router.get('/articles', asyncHandler(async (req, res) => {
   const articles = await Article.findAll({ order: [["createdAt", "DESC"]] });
   console.log(req.user.g_id);
-  res.render("articles/index", { articles, title: "", username: req.user.dataValues.username, g_id: req.user.g_id });
+  res.render("articles/index", { articles, title: "", username: req.user.dataValues.username, g_id: req.user.dataValues.g_id });
 }));
 
 /* Create a new article form. */
