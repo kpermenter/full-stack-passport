@@ -1,10 +1,12 @@
-div
-  label(for="title") Title:
-  input(type="text", name="title" value=article.title)
-div
-  label(for="author") Author:
-  input(type="text", name="author" value=article.author)
-div
-  label(for="body") Body:
-  textarea(name="body")= article.body
-input(type="submit")
+form
+  div.form-label-group
+    label(for='title')
+    input.form-control(type='text', placeholder='Title' name="title" value=article.title)
+  div.form-label-group
+    label(for='author')
+    input.form-control(type='text', placeholder='Author' name="author" value=article.author)
+  hr.my-4
+  div.form-label-group.container-body
+    label(for='body')
+    textarea(name="body", rows="8" cols="40")= article.body
+  input(type="submit" class="btn btn-lrg btn-google btn-block text-uppercase")

@@ -12,16 +12,24 @@ html
       a.navbar-brand(href='/articles') KoolJournal
       button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
         span.navbar-toggler-icon
-
       .collapse.navbar-collapse(id='navbarSupportedContent')
-        ul.navbar-nav
+        ul.navbar-nav.mr-auto
+          li.nav-item.active
+            a.nav-link(href='/login') Log In
           li.nav-item
-            a.nav-link(href='/sign-up') Sign-Up
+            a.nav-link(href='/sign-up') Sign-Up 
           li.nav-item
-            a.nav-link(href='/login') Login
-          li.nav-item
-            a.nav-link(href='/logout') Logout
+            a.nav-link(href='/logout') Log Out
+        ul.navbar-nav.float-right
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle(id='navbarDropdownMenuLink', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false') 
+            .dropdown-menu(aria-labelledby='navbarDropdownMenuLink')
+              a.dropdown-item(href='#') Settings
     div.container
+    .container-fluid
+      .row
+        .col-sm-9.col-md-7.col-lg-5.mx-auto
+          img.img-fluid(src='/images/logo_transparent2.png' alt='logo')
       block content
 
   script(src='https://code.jquery.com/jquery-3.4.1.min.js' integrity='sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=' crossorigin='anonymous')

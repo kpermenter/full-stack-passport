@@ -1,7 +1,12 @@
 extends layout
 
-block content
-    h1 No session open
-        br 
-    h1  Log in
-    a(href="/login", class="btn-new", style="background-color:red") Log In &#43;
+block content   
+    .container
+        .row
+            .col-sm-9.col-md-7.col-lg-5.mx-auto
+                .card.card-signin.my-5
+                    .card-body.text-center
+                        h1 No Session Open
+                            br 
+                        h1  Log in
+                        a(href="/login", class="btn-new", style="background-color:red") Log In &#43;
