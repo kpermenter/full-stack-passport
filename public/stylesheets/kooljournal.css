@@ -44,10 +44,6 @@
     padding: 1rem;
   }
   
-  .form-signin {
-    width: 100%;
-  }
-  
   .btn {
     font-size: 80%;
     border-radius: 5rem;
@@ -75,7 +71,7 @@
     position: relative;
     margin-bottom: 1rem;
   }
-  
+
   .form-label-group input {
     height: auto;
     border-radius: 2rem;
@@ -124,12 +120,15 @@
     flex-wrap: nowrap;
   }
 
-  .textarea {
+  .container-body{
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+  }
+  .textarea {
     flex:1;
     font-size: 1rem;
     padding: 1rem;
+    width: 100%;
   }
 
   .entries{
@@ -139,11 +138,4 @@
     justify-content:center;
     flex-wrap: wrap;
     flex-direction: row;
-  }
-
-  .entry {
-    width: 15rem;
-    height: 20rem;
-    border-radius: 10px;
-    margin: 20px;
   }

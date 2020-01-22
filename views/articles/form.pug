@@ -1,12 +1,12 @@
-form.form-signin(action="/login", method="post")
-  .form-label-group
+form
+  div.form-label-group
     label(for='title')
-    input#inputtitle.form-control(type='text' placeholder='Title' name="title" value=article.title autofocus='')
-  .form-label-group
+    input.form-control(type='text', placeholder='Title' name="title" value=article.title)
+  div.form-label-group
     label(for='author')
-    input#inputauthor.form-control(type='test' placeholder='Author' name="author" value=article.author)
+    input.form-control(type='text', placeholder='Author' name="author" value=article.author)
   hr.my-4
-  .form-label-group.center
+  div.form-label-group.container-body
     label(for='body')
-    textarea(name="body" rows="8" cols="50")= article.body
-input(type="submit" class="btn btn-lrg btn-google btn-block text-uppercase")
+    textarea(name="body", rows="8" cols="40")= article.body
+  input(type="submit" class="btn btn-lrg btn-google btn-block text-uppercase")
