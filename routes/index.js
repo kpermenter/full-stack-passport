@@ -187,20 +187,8 @@ router.all('*', function(req, res, next){
 /* GET articles listing. */
 router.get('/articles', asyncHandler(async (req, res) => {
   const articles = await Article.findAll({ order: [["createdAt", "DESC"]] });
-  res.render("articles/index", { articles, title: "" });
+  res.render("articles/index", { articles, title: "", username: req.user.dataValues.username });
 }));
-
-////////////////VALUE
-router.get('/test', (req, res) => {
-  console.log(req.body.username);
-  if(req.isAuthenticated()) {
-    console.log("AUTHENTICATED!");
-    console.log(req);
-    console.log('heyyyyyyyyyyy');
-    console.log(req.user.dataValues.username);
-    res.render("test", { username: req.user.dataValues.username });
-  }
-});
 
 /* Create a new article form. */
 router.get('/articles/new', (req, res) => {

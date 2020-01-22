@@ -1,7 +1,12 @@
 extends layout
 
 block content
-    h1 There was an error logging in. 
-        br 
-    h1  Try again.
-    a(href="/login", class="btn-new", style="background-color:red") Log In &#43;
+    .container
+        .row
+            .col-sm-9.col-md-7.col-lg-5.mx-auto
+                .card.card-signin.my-5
+                    .card-body.text-center
+                        h3 Login Error
+                            br 
+                        h1  Please Try Again
+                        a(href="/login", class="btn", style="background-color:red") Log In &#43;
