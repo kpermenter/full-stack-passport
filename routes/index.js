@@ -93,8 +93,9 @@ models.users.create({
   password: encryptionPassword(req.body.password)
 })
   .then(function (users) {
+    console.log('logggggggggggg')
+    console.log(req.body.username);
     res.redirect('/articles');
-    // console.log(req.body.username)
   });
 });
 
@@ -191,9 +192,13 @@ router.get('/articles', asyncHandler(async (req, res) => {
 
 ////////////////VALUE
 router.get('/test', (req, res) => {
-  var username= models.users.req.body.username;
-  if(req.isAuthenticated) {
-  res.render("test", { username: username });
+  console.log(req.body.username);
+  if(req.isAuthenticated()) {
+    console.log("AUTHENTICATED!");
+    console.log(req);
+    console.log('heyyyyyyyyyyy');
+    console.log(req.user.dataValues.username);
+    res.render("test", { username: req.user.dataValues.username });
   }
 });
 
