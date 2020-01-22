@@ -93,8 +93,9 @@ models.users.create({
   password: encryptionPassword(req.body.password)
 })
   .then(function (users) {
-    console.log('logggggggggggg')
-    console.log(req.body.username);
+    // console.log('logggggggggggg')
+    // console.log(req.user.g_id);
+    // console.log(req.body.username);
     res.redirect('/articles');
   });
 });
@@ -187,7 +188,8 @@ router.all('*', function(req, res, next){
 /* GET articles listing. */
 router.get('/articles', asyncHandler(async (req, res) => {
   const articles = await Article.findAll({ order: [["createdAt", "DESC"]] });
-  res.render("articles/index", { articles, title: "", username: req.user.dataValues.username });
+  console.log(req.user.g_id);
+  res.render("articles/index", { articles, title: "", username: req.user.dataValues.username, g_id: req.user.g_id });
 }));
 
 /* Create a new article form. */
