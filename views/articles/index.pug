@@ -1,17 +1,20 @@
 extends ../layout
 
 block content
-  
-  div.subheader.text-center
-    h1 Welcome, #{username}
-    h1 Latest Kool Posts
-    a(href="/articles/new", class="btn") Create Article &#43;
-  .container.cards
-    each article in articles
-      div
-        article
-            .card.card-signin.card-entry.my-3.card-body.text-center
-              h2= article.title
-              include by_line
-              p= article.shortDescription()
-              a(href = "/articles/" + article.id class="btn") Read More &rarr;
+   
+                div.subheader.text-center
+                  h1 Welcome, #{username} #{g_name}
+                  h1 Latest Kool Posts
+                  a(href="/articles/new", class="btn") Create Article &#43;
+                  
+                each article in articles
+                  .container.entries
+                    .row
+                      .col-sm-9.col-md-7.col-lg-5.mx-auto
+                        .card.card-signin.my-3
+                          .card-body.text-center
+                            article
+                              h2= article.title
+                              include by_line
+                              p= article.shortDescription()
+                              a(href = "/articles/" + article.id) Read More &rarr;

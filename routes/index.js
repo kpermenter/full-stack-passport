@@ -93,8 +93,9 @@ models.users.create({
   password: encryptionPassword(req.body.password)
 })
   .then(function (users) {
-    console.log('logggggggggggg')
-    console.log(req.body.username);
+    // console.log('logggggggggggg')
+    // console.log(req.user.g_id);
+    // console.log(req.body.username);
     res.redirect('/articles');
   });
 });
@@ -184,23 +185,22 @@ router.all('*', function(req, res, next){
   ensureAuthenticated(req, res, next);  
 });
 
+var userName = function (req, res){
+  var user = req.user.dataValues.username;
+  var g_id = req.user.dataValues.g_name
+  if (user) {
+    var username = user
+  } else {
+    username = g_id
+  }
+}
+
 /* GET articles listing. */
 router.get('/articles', asyncHandler(async (req, res) => {
   const articles = await Article.findAll({ order: [["createdAt", "DESC"]] });
-  res.render("articles/index", { articles, title: "" });
+  console.log(req.user.g_id);
+  res.render("articles/index", { articles, title: "", username: req.user.dataValues.username, g_name: req.user.dataValues.g_name });
 }));
-
-////////////////VALUE
-router.get('/test', (req, res) => {
-  console.log(req.body.username);
-  if(req.isAuthenticated()) {
-    console.log("AUTHENTICATED!");
-    console.log(req);
-    console.log('heyyyyyyyyyyy');
-    console.log(req.user.dataValues.username);
-    res.render("test", { username: req.user.dataValues.username });
-  }
-});
 
 /* Create a new article form. */
 router.get('/articles/new', (req, res) => {
