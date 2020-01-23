@@ -5,6 +5,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const models = require('./models');
+const favicon = require('serve-favicon');
 
 // const articles = require('./routes');
 const users = require('./routes');
@@ -22,8 +23,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use(articles);
-// app.use('/', articles);
 app.use('/', users);
 app.use('/', router);
 
