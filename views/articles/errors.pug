@@ -1,6 +1,10 @@
 if(errors)
-  h2.errors Oops an error occurred!
-  ul.errors
-    each error in errors
-      li
-        =error.message
+ .container
+      .row
+        .col-sm-9.col-md-7.col-lg-5.mx-auto
+          .card.card-signin.my-5
+            .card-body.text-center
+              h2.errors Oops an error occurred!
+              br
+              each error in errors
+                =error.message
