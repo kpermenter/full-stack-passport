@@ -3,7 +3,8 @@ extends ../layout
 block content
 
                 div.subheader.text-center
-                  h1 #{username}#{g_name}, add to your Kool Board!
+                  //- h1 #{username}#{g_name} My Kool Board
+                  h1 My Kool Board
                   a(href="/articles/new", class="btn") Create Kool Post &#43;
                   
                 each article in articles
