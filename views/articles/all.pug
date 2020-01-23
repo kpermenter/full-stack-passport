@@ -3,8 +3,7 @@ extends ../layout
 block content
 
                 div.subheader.text-center
-                  h1 Welcome, #{username} #{g_name}
-                  h1 Latest Kool Posts
+                  h1 #{username}#{g_name}, add to your Kool Board!
                   a(href="/articles/new", class="btn") Create Kool Post &#43;
                   
                 each article in articles
@@ -15,6 +14,6 @@ block content
                           .card-body.text-center
                             article
                               h2= article.title
-                              include by_line_all
+                              include by_line
                               p= article.shortDescription()
                               a(href = "/articles/" + article.id) Read More &rarr;

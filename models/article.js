@@ -22,11 +22,18 @@ module.exports = (sequelize) => {
          } 
       }
     },
+  //   user_id: {
+  //     type: Sequelize.INTEGER,
+  //     references: {
+  //         model: "users",
+  //         key: "id"
+  //     }
+  // },
     author: Sequelize.STRING,
     body: Sequelize.TEXT
   }, { sequelize });
 
   // associations can be defined here
-
+  
   return Article;
 };
