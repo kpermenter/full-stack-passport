@@ -4,7 +4,7 @@ form
     input.form-control(type='text', placeholder='Title' name="title" value=article.title)
   div.form-label-group
     label(for='author')
-    input.form-control(type='text', placeholder='Author' name="author" value=article.author)
+    input.form-control(type='hidden', placeholder='Author' name="author" value=userName)
   hr.my-4
   div.form-label-group.container-body
     label(for='body')
