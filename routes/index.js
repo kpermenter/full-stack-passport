@@ -185,16 +185,6 @@ router.all('*', function(req, res, next){
   ensureAuthenticated(req, res, next);  
 });
 
-var userName = function (req, res){
-  var user = req.user.dataValues.username;
-  var g_id = req.user.dataValues.g_name
-  if (user) {
-    var username = user
-  } else {
-    username = g_id
-  }
-}
-
 /* GET articles listing. */
 router.get('/articles', asyncHandler(async (req, res) => {
   const articles = await Article.findAll({ order: [["createdAt", "DESC"]] });
