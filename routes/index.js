@@ -185,22 +185,31 @@ router.all('*', function(req, res, next){
   ensureAuthenticated(req, res, next);  
 });
 
-var userName = function (req, res){
-  var user = req.user.dataValues.username;
-  var g_id = req.user.dataValues.g_name
-  if (user) {
-    var username = user
-  } else {
-    username = g_id
-  }
-}
-
-/* GET articles listing. */
-router.get('/articles', asyncHandler(async (req, res) => {
+// all articles
+router.get('/articles/', asyncHandler(async (req, res) => {
   const articles = await Article.findAll({ order: [["createdAt", "DESC"]] });
-  console.log(req.user.g_id);
   res.render("articles/index", { articles, title: "", username: req.user.dataValues.username, g_name: req.user.dataValues.g_name });
 }));
+
+// user articles
+router.get('/articles/all', asyncHandler(async (req, res) => {
+  const articles = await Article.findAll({ order: [["createdAt", "DESC"]] });
+  // res.render("articles/index", { articles, title: ""});
+  res.render("articles/all", { articles, title: "", username: req.user.dataValues.username, g_name: req.user.dataValues.g_name });
+}));
+
+
+/////////////TEST/////////////////////////
+// router.get("/articles/all", asyncHandler(async (req, res) => {
+//   const article = await Article.findByPk(req.params.id);
+//   if (article.user_id === user_id) {
+//     res.render("articles/all", { article: article, title: article.title, username: req.user.dataValues.username, g_name: req.user.dataValues.g_name  });
+//   } else {
+//     res.sendStatus(404);
+//   }
+// }));
+/////////////TEST/////////////////////////
+
 
 /* Create a new article form. */
 router.get('/articles/new', (req, res) => {

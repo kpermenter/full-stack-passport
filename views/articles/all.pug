@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+
+                div.subheader.text-center
+                  //- h1 #{username}#{g_name} My Kool Board
+                  h1 My Kool Board
+                  a(href="/articles/new", class="btn") Create Kool Post &#43;
+                  
+                each article in articles
+                  .container.entries
+                    .row
+                      .col-sm-9.col-md-7.col-lg-5.mx-auto
+                        .card.card-signin.my-3
+                          .card-body.text-center
+                            article
+                              h2= article.title
+                              include by_line
+                              p= article.shortDescription()
+                              a(href = "/articles/" + article.id) Read More &rarr;

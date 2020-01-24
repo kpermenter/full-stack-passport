@@ -5,8 +5,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const models = require('./models');
+const favicon = require('serve-favicon');
 
-// const articles = require('./routes');
 const users = require('./routes');
 
 const app = express();
@@ -21,9 +21,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
-// app.use(articles);
-// app.use('/', articles);
 app.use('/', users);
 app.use('/', router);
 
@@ -44,7 +43,7 @@ app.use( (err, req, res, next) => {
 });
 
 models.sequelize.sync().then(function(){
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Our app is running on port ${ PORT }`);
 });
