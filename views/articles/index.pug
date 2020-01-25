@@ -13,5 +13,5 @@ block content
               .card.card-signin.card-entry.my-3.card-body.text-center
                 h2= article.title
                 include by_line
-                p= article.shortDescription()
+                pre= article.shortDescription()
                 a(href = "/articles/" + article.id class="btn") Read More &rarr;
