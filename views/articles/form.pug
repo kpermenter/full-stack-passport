@@ -6,7 +6,7 @@ form
     label(for='author')
     input.form-control(type='hidden', placeholder='Author' name="author" value=g_name)
   hr.my-4
-  div.form-label-group.container-body
+  div.form-label-group.container-body.contenteditable 
     label(for='body')
     textarea(name="body", rows="8")= article.body
   input(type="submit" class="btn btn-lrg btn-google btn-block text-uppercase")
