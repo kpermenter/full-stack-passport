@@ -34,7 +34,7 @@
     "passport-session": "^1.0.2",
     "pbkdf2": "^3.0.17",
     "pg": "^7.17.1",
-    "pug": "^2.0.4",
+    "pug": "^3.0.1",
     "salt": "^0.5.5",
     "sequelize": "^5.21.3",
     "sequelize-cli": "^5.5.1",
